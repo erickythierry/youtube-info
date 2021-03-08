@@ -49,4 +49,4 @@ def info():
 	link = data.get("link")
 	dados = yt_dados(link)
 
-	return dados['title']
+	return json.dumps(dados)
