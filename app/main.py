@@ -45,4 +45,4 @@ def index():
 def info():
 	data = request.form
 	link = data.get("link")
-	return f'seu link {link}'
+	return f'{yt_dados(link)}'
