@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from flask import Flask, request, url_for, render_template
 import youtube_dl
+import json
 
 def yt_dados(url):
 	try:
@@ -46,4 +47,5 @@ def index():
 def info():
 	data = request.form
 	link = data.get("link")
-	return f'{yt_dados(link)}'
+	dados = yt_dados(link)
+	return json.dumps(dados, sort_keys=True, indent=4)
