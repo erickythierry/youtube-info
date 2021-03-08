@@ -1,7 +1,23 @@
-<form action="/info" method="POST">
-  <div>
-    <label>link do youtube</label>
-    <input type="text" id="link" name="link" placeholder="insira o link">
-  </div>
-  <button type="submit" >enviar</button>
-</form>
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div id="centro" style="text-align: center" >
+    	<h4>INSIRA O LINK</h4>
+        <input type="text" id="link" >
+        <button onclick="buscaYT();" class="btn btn-success">pesquisar</button>
+        <button id="limpar" style="display: none;" onclick="limpar();" class="btn btn-info">limpar resultados</button>
+        <br><br>
+        
+    </div>
+<script src="ajax.js"></script>
+</body>
+
+</html>

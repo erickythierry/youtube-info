@@ -49,4 +49,4 @@ def info():
 	link = data.get("link")
 	dados = yt_dados(link)
 
-	return render_template("dados.html", meta=dados)
+	return dados['title']
