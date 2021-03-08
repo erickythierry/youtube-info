@@ -27,7 +27,7 @@ function preencheCampos(json) {
 	conteudo.setAttribute("rows", "15");
 	conteudo.setAttribute("cols", "50");
 	var keys = Object.keys(JSON.parse(json));
-	var texto = document.createTextNode(keys.title);
+	var texto = document.createTextNode(keys.formats);
 	conteudo.appendChild(texto);
 	elemento_pai.appendChild(conteudo);
 
