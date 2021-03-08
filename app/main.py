@@ -24,7 +24,7 @@ def get_info_yt():
 			tempo = int(tempo)
 			id_video = meta['id']
 
-			return [titulo, tempo, id_video]
+			return f'{titulo}\n{tempo}\n{id_video}'
 
 		except Exception as e:
 			#print("resultado: "+str(e))
