@@ -7,15 +7,20 @@ app = Flask(__name__)
 @app.route("/") 
 def get_info_yt():
 	url = request.args.get('url')
-	if url == '' or url == None:
-		return "url vazia"
+	url2 = request.args.get('v')
+	if url == None and url2 == None:
+		return f'url vazia'
 	else:
+		if len(url2) == 11:
+			link = url2
+		else:
+			link = url
 		try:
 			ydl_opts = {'noplaylist' : True}
 
 			with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 				meta = ydl.extract_info(
-					url, download=False)
+					link, download=False)
 
 
 			titulo = meta['title']
