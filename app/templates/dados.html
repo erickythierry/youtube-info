@@ -7,8 +7,11 @@
 </head>
 
 <body>
-
-
+	<h1> {{meta['title']}} </h1>
+	<img src="{{meta['thumbnails'][4]['url']}}" alt="{{meta['title']}}">
+	<hr>
+	<hr>
+	<h4>links do video</h4>
 	<ul>
         {% for link in meta['formats']: %}
         	<li><a href="{{link['url']}}">video</a></li>
