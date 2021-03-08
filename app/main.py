@@ -48,4 +48,5 @@ def info():
 	data = request.form
 	link = data.get("link")
 	dados = yt_dados(link)
-	return json.dumps(dados, sort_keys=True, indent=4)
+
+	return render_template("dados.html", meta=dados)

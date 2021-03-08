@@ -1,0 +1,19 @@
+<!doctype html>
+
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>{{meta["alt_title"]}}</title>
+</head>
+
+<body>
+
+ 	<ul>
+        {% for link in meta["url"]: %}
+        	<li><a href="{{ link }}">link direto </a></li>
+		{% endfor %}
+	</ul>
+
+</body>
+</html>
+
