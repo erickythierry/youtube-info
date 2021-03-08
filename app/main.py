@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from flask import Flask, request
+from flask import Flask, request, url_for, render_template
 import youtube_dl
 
 def yt_dados(url):
@@ -37,7 +37,12 @@ def yt_dados(url):
 
 
 app = Flask(__name__) 
-@app.route("/", methods=['GET', 'POST'])
-def get_info_yt():
-	link = request.form['link']
-	return f"{link}"
+@app.route("/")
+def index():
+	return render_template("index.html")
+
+@app.route("/info", methods=["GET", "POST"])
+def info():
+	data = request.form
+	link = data.get("link")
+	return f'seu link {link}'
