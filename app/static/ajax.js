@@ -22,12 +22,10 @@ function buscaYT() {
 function preencheCampos(json) {
 
 	var elemento_pai = document.getElementById('centro');
-	var conteudo = document.createElement('textarea');
+	var conteudo = document.createElement('div');
 	conteudo.setAttribute("class", "resultado");
-	conteudo.setAttribute("rows", "15");
-	conteudo.setAttribute("cols", "50");
-	var obj = JSON.parse(json);
-	var texto = document.createTextNode('titulo');
+	//var obj = JSON.parse(json);
+	var texto = document.createTextNode(json);
 	conteudo.appendChild(texto);
 	elemento_pai.appendChild(conteudo);
 
