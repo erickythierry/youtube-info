@@ -3,16 +3,18 @@
 <html lang="pt-br">
 <head>
   <meta charset="utf-8">
-  <title>{{meta["alt_title"]}}</title>
+  <title>{{meta['title']}}</title>
 </head>
 
 <body>
 
- 	<ul>
-        {% for link in meta["url"]: %}
-        	<li><a href="{{ link }}">link direto </a></li>
+
+	<ul>
+        {% for link in meta['formats']: %}
+        	<li><a href="{{link['url']}}">video</a></li>
 		{% endfor %}
 	</ul>
+
 
 </body>
 </html>
