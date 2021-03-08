@@ -11,14 +11,15 @@ def yt_dados(url):
 			meta = ydl.extract_info(
 				url, download=False)
 
-
+		'''
 		titulo = meta['title']
 		tempo = meta['duration']
 		tempo = tempo/60
 		tempo = int(tempo)
 		id_video = meta['id']
-
-		return f'{titulo}\n{tempo}\n{id_video}'
+		'''
+		
+		return meta
 
 	except Exception as e:
 		#print("resultado: "+str(e))
