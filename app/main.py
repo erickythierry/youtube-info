@@ -4,10 +4,10 @@ from flask import Flask, request
 import youtube_dl
 
 app = Flask(__name__) 
-@app.route("/<link>") 
+@app.route("/") 
 def get_info_yt():
-	url = link
-	if url == '':
+	url = request.args.get('url')
+	if url == '' or url == None:
 		return "url vazia"
 	else:
 		try:
