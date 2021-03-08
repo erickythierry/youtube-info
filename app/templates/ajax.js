@@ -1,9 +1,11 @@
-function buscaCep() {
-	let inputCep = document.querySelector('input[id=cep]');
-	let cep = inputCep.value.replace('-', '');
-	let url = 'http://viacep.com.br/ws/' + cep + '/json';
+function buscaYT() {
+	let inputlink = document.querySelector('input[id=link]');
+	let link = inputlink.value;
+	let url = 'https://t-youtube-info.herokuapp.com/info';
+	var data = new FormData();
+	data.append('link', link);
 	let xhr = new XMLHttpRequest();
-	xhr.open('GET', url, true);
+	xhr.open('POST', url, true);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4) {
 			if (xhr.status = 200)
@@ -11,7 +13,7 @@ function buscaCep() {
 				
 		}
 	}
-	xhr.send();
+	xhr.send(data);
 	var btnlimpar = document.getElementById("limpar");
 	btnlimpar.style.display = "inline";
 	  
