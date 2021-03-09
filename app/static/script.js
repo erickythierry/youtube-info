@@ -1,7 +1,9 @@
 const showData = (result)=>{
     for(const campo in result){
-        console.log(campo)
-    };
+        if(document.querySelector("#"+campo)){
+            document.querySelector("#"+campo).value = result[campo]
+        }
+    }
 };
 
 
