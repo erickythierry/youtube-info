@@ -56,12 +56,12 @@ def buscaVideo():
 	data = request.form
 	textoBusca = data.get("texto")
 	numeroDeResultados = data.get("num")
-	resultado = {}
+	resultado = {'resultados':[]}
 	metadata = yt_dados(f'ytsearch{numeroDeResultados}: {textoBusca}')
 	metadata = metadata["entries"]
 	for i in metadata:
 		titulo = i["title"]
 		duracao = int(i['duration']/60)
 		url = f'https://youtu.be/{i["id"]}'
-		resultado[''] = {'titulo': titulo, 'tempo': duracao, 'link': url} 
+		resultado["resultados"].append({'titulo': titulo, 'tempo': duracao, 'link': url})
 	return resultado
