@@ -50,3 +50,14 @@ def info():
 	dados = yt_dados(link)
 
 	return dados
+
+@app.route("/buscar", methods=["GET", "POST"])
+def buscaVideo():
+	data = request.form
+	textoBusca = data.get("texto")
+	numeroDeResultados = data.get("num")
+	resultado = []
+	metadata = yt_dados(f'ytsearch{numeroDeResultados}: {textoBusca}')
+	for i in int(numeroDeResultados):
+		resultado.append({'titulo': metadata["entries"][i]['title']})
+	return resultado
