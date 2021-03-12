@@ -10,7 +10,6 @@ def baixar(song_url, song_title):
 	try:
 		outtmpl = './'+song_title + '.%(ext)s'
 		ydl_opts = {
-			'cookiefile' : ytcookie(),
 			'noplaylist' : True,
 			'format': 'bestaudio[ext=m4a]',
 			'outtmpl': outtmpl
@@ -115,6 +114,7 @@ def baixaMusica():
 	nome = link[-11:]+'_audio'
 	print(nome)
 	retorno = baixar(link, nome)
-	with open("", "rb") as file:
-    	encoded_string = base64.b64encode(file.read())
-    return f'{encoded_string}'
+	if retorno =='ok':
+		with open("", "rb") as file:
+			encoded_string = base64.b64encode(file.read())
+		return f'{encoded_string}'
