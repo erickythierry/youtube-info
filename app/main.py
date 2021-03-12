@@ -117,4 +117,9 @@ def baixaMusica():
 	if retorno =='ok':
 		with open(f"{nome}.m4a", "rb") as file:
 			encoded_string = base64.b64encode(file.read())
-		return f'{encoded_string}'
+
+		base64_string = encoded_string.decode('utf-8')
+		raw_data = {'file': base64_string}
+		json_data = json.dumps(raw_data, indent=2)
+
+		return json_data
