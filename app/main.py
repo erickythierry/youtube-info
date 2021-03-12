@@ -111,10 +111,10 @@ def baixaMusica():
 	print('musica')
 	data = request.form
 	link = data.get("link")
-	nome = link[-11:]+'_audio'
+	nome = 'musicateste'
 	print(nome)
 	retorno = baixar(link, nome)
 	if retorno =='ok':
-		with open("", "rb") as file:
+		with open(f"{nome}.m4a", "rb") as file:
 			encoded_string = base64.b64encode(file.read())
 		return f'{encoded_string}'
