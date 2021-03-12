@@ -2,7 +2,46 @@
 from __future__ import unicode_literals
 from flask import Flask, request, url_for, render_template
 import youtube_dl
+import base64
 import json
+
+def baixar(song_url, song_title):
+
+	try:
+		outtmpl = './'+song_title + '.%(ext)s'
+		ydl_opts = {
+			'cookiefile' : ytcookie(),
+			'noplaylist' : True,
+			'format': 'bestaudio[ext=m4a]',
+			'outtmpl': outtmpl
+			
+		}
+
+		with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+			info_dict = ydl.extract_info(song_url, download=False)
+		
+		if (info_dict['duration']/60) >= 18:
+			return 'grande'
+		else:
+			with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+				info_dict = ydl.extract_info(song_url, download=True)
+
+			return 'ok'
+
+	except Exception as e:
+		erro = str(e)
+
+		if "in your country" in erro:
+			print('erro de localização do video')
+			return 'indisponivel'
+
+		elif 'Too Many Requests' in erro:
+			print('bloqueio da  api')
+			return 'block'
+
+		else:
+			print(erro)
+			return 'erro'
 
 def yt_dados(url):
 	try:
@@ -67,3 +106,15 @@ def buscaVideo():
 		url = f'https://youtu.be/{i["id"]}'
 		resultado["resultados"].append({'titulo': titulo, 'tempo': duracao, 'link': url})
 	return resultado
+
+@app.route("/musica", methods=["GET", "POST"])
+def baixaMusica():
+	print('musica')
+	data = request.form
+	link = data.get("link")
+	nome = link[-11:]+'_audio'
+	print(nome)
+	retorno = baixar(link, nome)
+	with open("", "rb") as file:
+    	encoded_string = base64.b64encode(file.read())
+    return f'{encoded_string}'
