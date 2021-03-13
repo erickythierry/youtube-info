@@ -111,7 +111,8 @@ def baixaMusica():
 	print('musica')
 	data = request.form
 	link = data.get("link")
-	nome = 'musicateste'
+	nome = link.text
+	nome = nome[-11:]
 	print(nome)
 	retorno = baixar(link, nome)
 	if retorno =='ok':
