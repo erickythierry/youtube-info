@@ -7,6 +7,19 @@ import json
 import re
 
 
+def youtube_erro(erro):
+	if "in your country" in erro:
+		print('erro de localização do video')
+		return 'video indisponivel no pais'
+
+	elif 'Too Many Requests' in erro:
+		print('bloqueio da  api')
+		return 'muitas requisições'
+
+	else:
+		return 'desconhecido'
+
+
 
 def youtube_url_validation(url):
     youtube_regex = (
@@ -36,7 +49,7 @@ def baixar(song_url, song_title):
 			info_dict = ydl.extract_info(song_url, download=False)
 		
 		if (info_dict['duration']/60) >= 18:
-			return 'grande'
+			return 'arquivo grande demais'
 		else:
 			with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 				info_dict = ydl.extract_info(song_url, download=True)
@@ -45,18 +58,8 @@ def baixar(song_url, song_title):
 
 	except Exception as e:
 		erro = str(e)
-
-		if "in your country" in erro:
-			print('erro de localização do video')
-			return 'indisponivel'
-
-		elif 'Too Many Requests' in erro:
-			print('bloqueio da  api')
-			return 'block'
-
-		else:
-			print(erro)
-			return 'erro'
+		return youtube_erro(erro)
+		
 
 def yt_dados(url):
 	try:
@@ -79,18 +82,7 @@ def yt_dados(url):
 	except Exception as e:
 		#print("resultado: "+str(e))
 		erro = str(e)
-
-		if "in your country" in erro:
-			print('erro de localização do video')
-			return 'video indisponivel no pais'
-
-		elif 'Too Many Requests' in erro:
-			print('bloqueio da  api')
-			return 'muitas requisições'
-
-		else:
-			return 'desconhecido'
-
+		return youtube_erro(erro)
 
 app = Flask(__name__) 
 @app.route("/")
