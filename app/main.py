@@ -136,4 +136,4 @@ def baixaMusica():
 		else:
 			return json.dumps({'erro-api': retorno}, indent=2)
 	else:
-		return json.dumps({'erro':'url invalida'}, indent=2)
+		return json.dumps({'erro':'URL invalida'}, indent=2)
