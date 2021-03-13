@@ -82,14 +82,14 @@ def yt_dados(url):
 
 		if "in your country" in erro:
 			print('erro de localização do video')
-			return 'erro, video indisponivel'
+			return 'video indisponivel no pais'
 
 		elif 'Too Many Requests' in erro:
 			print('bloqueio da  api')
-			return 'erro, ip block'
+			return 'muitas requisições'
 
 		else:
-			return 'erro desconhecido'
+			return 'desconhecido'
 
 
 app = Flask(__name__) 
@@ -141,5 +141,7 @@ def baixaMusica():
 			json_data = json.dumps(raw_data, indent=2)
 
 			return json_data
+		else:
+			return json.dumps({'erro-youtube': retorno}, indent=2)
 	else:
 		return json.dumps({'erro':'url invalida'}, indent=2)
