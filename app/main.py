@@ -4,6 +4,22 @@ from flask import Flask, request, url_for, render_template
 import youtube_dl
 import base64
 import json
+import re
+
+
+
+def youtube_url_validation(url):
+    youtube_regex = (
+        r'(https?://)?(www\.)?'
+        '(youtube|youtu|youtube-nocookie)\.(com|be)/'
+        '(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+
+    youtube_regex_match = re.match(youtube_regex, url)
+    if youtube_regex_match:
+        return youtube_regex_match.group(6)
+
+    return youtube_regex_match
+
 
 def baixar(song_url, song_title):
 
@@ -111,16 +127,19 @@ def baixaMusica():
 	print('musica')
 	data = request.form
 	link = data.get("link")
-	nome = link
-	nome = nome[-11:]
-	print(nome)
-	retorno = baixar(link, nome)
-	if retorno =='ok':
-		with open(f"{nome}.m4a", "rb") as file:
-			encoded_string = base64.b64encode(file.read())
+	validar = youtube_url_validation(link)
+	if validar:
+		nome = validar
+		print(nome)
+		retorno = baixar(link, nome)
+		if retorno =='ok':
+			with open(f"{nome}.m4a", "rb") as file:
+				encoded_string = base64.b64encode(file.read())
 
-		base64_string = encoded_string.decode('utf-8')
-		raw_data = {'nome': f'{nome}.m4a', 'file': base64_string}
-		json_data = json.dumps(raw_data, indent=2)
+			base64_string = encoded_string.decode('utf-8')
+			raw_data = {'nome': f'{nome}.m4a', 'file': base64_string}
+			json_data = json.dumps(raw_data, indent=2)
 
-		return json_data
+			return json_data
+	else:
+		return json.dumps({'erro':'url invalida'}, indent=2)
