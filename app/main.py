@@ -197,9 +197,10 @@ def upload_file():
 	arquivo_webp = convert_to_webp(uploaded_file.filename)
 
 	with open(arquivo_webp, "rb") as file:
-		encoded = base64.b64encode(file.read())
+		encoded_string = base64.b64encode(file.read())
 
-	base64 = encoded.decode('utf-8')
-	raw = {'nome': arquivo_webp, 'file': base64}
-	json_d = json.dumps(raw, indent=2)
-	return json_d
+	base64_string = encoded_string.decode('utf-8')
+	raw_data = {'nome': arquivo_webp, 'file': base64_string}
+	json_data = json.dumps(raw_data, indent=2)
+
+	return json_data
