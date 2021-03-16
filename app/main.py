@@ -5,6 +5,10 @@ import youtube_dl
 import base64
 import json
 import re
+import random
+import subprocess
+import os
+
 
 
 def youtube_erro(erro):
@@ -84,6 +88,49 @@ def yt_dados(url):
 		erro = str(e)
 		return youtube_erro(erro)
 
+
+def gerar_nome(inicio=''):
+	numero = inicio+str(random.randint(123456,999999))
+	return numero
+
+def checa_resolucao(path):
+	comando = f'ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of json {path}'
+	subpro = subprocess.Popen(comando, shell=True, stdout=subprocess.PIPE)
+	subprocess_return = subpro.stdout.read()
+	jsn = subprocess_return.decode('utf-8')
+	jsn = json.loads(jsn)
+	jsn = jsn["streams"][0]
+	altura = int(jsn["height"])
+	largura = int(jsn["width"])
+
+	if altura > largura:
+		return 2
+	elif largura > altura:
+		return 1
+	else:
+		return 2
+
+def convert_to_webp(path):
+	maior = checa_resolucao(path)
+	valor1 = '512'
+	valor2 = '-1'
+	nome = gerar_nome(path)
+
+	if maior == 2:
+		valor1 = '-1'
+		valor2 = '512'
+	
+	comando = f'''ffmpeg -ss 0 -t 5 -i {path} -vcodec libwebp -vf "scale={valor1}:{valor2}:force_original_aspect_ratio=decrease,fps=15, pad=512:512:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse" -loop 0 {nome}.webp'''
+	subpro = subprocess.Popen(comando, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	subprocess_return = subpro.stderr.read().decode('utf-8')
+	if 'Conversion failed' in f'{subprocess_return}':
+		os.system(f'rm {nome}.webp')
+		comando = f'''ffmpeg -ss 0 -t 5 -i {path} -vcodec libwebp -vf "scale=-1:512:force_original_aspect_ratio=decrease,fps=15, pad=512:512:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse" -loop 0 {nome}.webp'''
+		subpro = subprocess.Popen(comando, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+	return (nome+'.webp')
+
+
 app = Flask(__name__) 
 @app.route("/")
 def index():
@@ -137,3 +184,12 @@ def baixaMusica():
 			return json.dumps({'erro-api': retorno}, indent=2)
 	else:
 		return json.dumps({'erro':'URL invalida'}, indent=2)
+
+
+
+@app.route('/webp', methods=['POST'])
+def upload_file():
+    uploaded_file = request.files['file']
+    if uploaded_file.filename != '':
+        uploaded_file.save(uploaded_file.filename)
+    print(os.system('ls'))
