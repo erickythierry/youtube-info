@@ -189,8 +189,17 @@ def baixaMusica():
 
 @app.route('/webp', methods=['POST'])
 def upload_file():
+
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         uploaded_file.save(uploaded_file.filename)
-    print(os.system('ls'))
-    return uploaded_file.filename
+    
+    arquivo_webp = convert_to_webp(uploaded_file.filename)
+    
+    with open(arquivo_webp, "rb") as file:
+		encoded = base64.b64encode(file.read())
+
+	base64 = encoded.decode('utf-8')
+	raw = {'nome': arquivo_webp, 'file': base64}
+	json_d = json.dumps(raw, indent=2)
+	return json_d
