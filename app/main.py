@@ -14,11 +14,10 @@ def index():
 def buscaVideo():
 	data = request.form
 	textoBusca = data.get("texto")
-	numeroDeResultados = data.get("num")
+	numeroDeResultados = int(data.get("num"))
 	if numeroDeResultados == None or numeroDeResultados == 0 or not numeroDeResultados:
 		numeroDeResultados = 3
 	
-	results = YoutubeSearch(textoBusca, max_results=numeroDeResultados).to_json()
-
-	
+	results = YoutubeSearch(textoBusca, max_results=numeroDeResultados).to_dict()
+	results = json.dumps(results, ensure_ascii=False)
 	return results
